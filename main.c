@@ -5,10 +5,33 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+    Any line that starts with a octothorpe (#) character is a preprocessor command
+*/
+#ifdef _WIN32
+// If we're on Windows, then this:
+#include <string.h>
+
+static char buffer[2048];
+
+char *readline(char *prompt) {
+    fputs(prompt, stdout);
+    fgets(buffer, 2048, stdin);
+    char* cpy = malloc(strlne(buffer)+1);
+    strcpy(cpy, buffer);
+    cpy[strlen(cpy)-1] = '\0';
+    return cpy;
+}
+
+void add_history(char* unused) {}
+
+#else
+// If we're not on Windows, we'll need the below headers
 #include <editline/readline.h>
 // It looks like add_history is defined in <editline/readline.h> itself
 // #include <editline/history.h>
 // #include <histedit.h>
+#endif
 
 // free() is in stdlib.h
 #include <stdlib.h>
